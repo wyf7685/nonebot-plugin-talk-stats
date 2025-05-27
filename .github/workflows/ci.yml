@@ -3,13 +3,13 @@ name: CI
 on:
   push:
     paths:
-      - "nonebot_plugin_template/**"
+      - "nonebot_plugin_talk_stats/**"
       - ".github/workflows/ci.yml"
       - "pyproject.toml"
       - "uv.lock"
   pull_request:
     paths:
-      - "nonebot_plugin_template/**"
+      - "nonebot_plugin_talk_stats/**"
       - ".github/workflows/ci.yml"
       - "pyproject.toml"
       - "uv.lock"
@@ -25,7 +25,7 @@ jobs:
         uses: astral-sh/ruff-action@v2
         with:
           src: >-
-            nonebot_plugin_template/
+            nonebot_plugin_talk_stats/
 
   basedpyright:
     name: BasedPyright Lint (${{ matrix.python-version }})
@@ -47,4 +47,4 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Run BasedPyright
-        run: uvx basedpyright nonebot_plugin_template/
+        run: uvx basedpyright nonebot_plugin_talk_stats/
