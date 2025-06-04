@@ -19,7 +19,7 @@ _✨ NoneBot 插件简单描述 ✨_
 [![basedpyright - checked](https://img.shields.io/badge/basedpyright-checked-42b983)](https://docs.basedpyright.com)
 
 [![pre-commit](https://results.pre-commit.ci/badge/github/wyf7685/nonebot-plugin-talk-stats/master.svg)](https://results.pre-commit.ci/latest/github/wyf7685/nonebot-plugin-talk-stats/master)
-[![CI](https://github.com/wyf7685/nonebot-plugin-talk-stats/actions/workflows/pyright.yml/badge.svg?branch=master&event=push)](https://github.com/wyf7685/nonebot-plugin-talk-stats/actions/workflows/ci.yml)
+[![CI](https://github.com/wyf7685/nonebot-plugin-talk-stats/actions/workflows/ci.yml/badge.svg)](https://github.com/wyf7685/nonebot-plugin-talk-stats/actions/workflows/ci.yml)
 [![publish](https://github.com/wyf7685/nonebot-plugin-talk-stats/actions/workflows/pypi-publish.yml/badge.svg)](https://github.com/wyf7685/nonebot-plugin-talk-stats/actions/workflows/pypi-publish.yml)
 
 </div>
