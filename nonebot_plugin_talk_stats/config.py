@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 
 class PluginConfig(BaseModel):
-    enable_scheduler: bool = False
+    enable_scheduler: bool = True
     user_color_fn: str | None = None
     scene_color_start: tuple[int, int, int] = (29, 113, 48)  # 1d7130
     scene_color_end: tuple[int, int, int] = (52, 208, 88)  # 34d058
