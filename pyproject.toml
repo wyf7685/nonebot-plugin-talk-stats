@@ -122,3 +122,6 @@ pythonPlatform = "All"
 typeCheckingMode = "standard"
 reportShadowedImports = false
 disableBytesTypePromotions = true
+
+[tool.setuptools.package-data]
+nonebot_plugin_talk_stats = ["templates/*.jinja2"]
