@@ -1,3 +1,5 @@
+from importlib.metadata import version
+
 from nonebot import logger, require
 from nonebot.plugin import PluginMetadata, inherit_supported_adapters
 
@@ -19,6 +21,11 @@ if config.enable_scheduler:
 
 from . import matcher as matcher
 
+try:
+    __version__ = version("nonebot-plugin-talk-stats")
+except Exception:
+    __version__ = None
+
 __plugin_meta__ = PluginMetadata(
     name="Talk Stats",
     description="群聊活跃度统计",
@@ -31,4 +38,8 @@ __plugin_meta__ = PluginMetadata(
         "nonebot_plugin_chatrecorder",
         "nonebot_plugin_uninfo",
     ),
+    extra={
+        "author": "wyf7685",
+        "version": __version__,
+    },
 )

@@ -1,7 +1,13 @@
+from typing import TYPE_CHECKING
+
 from nonebot import get_plugin_config
-from nonebot.compat import field_validator
 from nonebot.utils import resolve_dot_notation
 from pydantic import BaseModel
+
+if TYPE_CHECKING:
+    from pydantic import field_validator  # V2
+else:
+    from nonebot.compat import field_validator
 
 
 class PluginConfig(BaseModel):
@@ -10,9 +16,9 @@ class PluginConfig(BaseModel):
     scene_color_start: tuple[int, int, int] = (29, 113, 48)  # 1d7130
     scene_color_end: tuple[int, int, int] = (52, 208, 88)  # 34d058
 
-    @field_validator("user_color_fn", mode="after")  # pyright:ignore[reportUntypedFunctionDecorator]
-    @classmethod
-    def validate_user_color_fn(cls, value: str | None) -> str | None:
+    @field_validator("user_color_fn", mode="after")
+    @staticmethod
+    def validate_user_color_fn(value: str | None) -> str | None:
         if value is None:
             return None
 
@@ -29,9 +35,9 @@ class PluginConfig(BaseModel):
 
         return value
 
-    @field_validator("scene_color_start", "scene_color_end", mode="after")  # pyright:ignore[reportUntypedFunctionDecorator]
-    @classmethod
-    def validate_color(cls, value: tuple[int, int, int]) -> tuple[int, int, int]:
+    @field_validator("scene_color_start", "scene_color_end", mode="after")
+    @staticmethod
+    def validate_color(value: tuple[int, int, int]) -> tuple[int, int, int]:
         if not all(0 <= c <= 255 for c in value):
             raise ValueError("RGB values must be in the range 0-255.")
         return value
