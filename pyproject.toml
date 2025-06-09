@@ -1,6 +1,6 @@
 [project]
 name = "nonebot-plugin-talk-stats"
-version = "0.1.0"
+version = "0.1.1"
 description = "群聊活跃度统计插件"
 authors = [{ name = "wyf7685", email = "wyf7685@162.com" }]
 readme = "README.md"
@@ -13,7 +13,7 @@ dependencies = [
   "nonebot-plugin-orm>=0.7.7",
   "nonebot-plugin-uninfo>=0.7.0",
 ]
-license = { text = "MIT" }
+license = "MIT"
 
 [dependency-groups]
 scheduler = ["nonebot-plugin-apscheduler>=0.5.0"]
