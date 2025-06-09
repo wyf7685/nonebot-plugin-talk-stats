@@ -8,7 +8,7 @@
 
 # nonebot-plugin-talk-stats
 
-_✨ NoneBot 插件简单描述 ✨_
+_✨ 群聊活跃度统计 ✨_
 
 [![license](https://img.shields.io/github/license/wyf7685/nonebot-plugin-talk-stats.svg)](./LICENSE)
 [![pypi](https://img.shields.io/pypi/v/nonebot-plugin-talk-stats?logo=python&logoColor=edb641)](https://pypi.python.org/pypi/nonebot-plugin-talk-stats)
@@ -20,13 +20,13 @@ _✨ NoneBot 插件简单描述 ✨_
 
 [![pre-commit](https://results.pre-commit.ci/badge/github/wyf7685/nonebot-plugin-talk-stats/master.svg)](https://results.pre-commit.ci/latest/github/wyf7685/nonebot-plugin-talk-stats/master)
 [![CI](https://github.com/wyf7685/nonebot-plugin-talk-stats/actions/workflows/ci.yml/badge.svg)](https://github.com/wyf7685/nonebot-plugin-talk-stats/actions/workflows/ci.yml)
-[![publish](https://github.com/wyf7685/nonebot-plugin-talk-stats/actions/workflows/pypi-publish.yml/badge.svg)](https://github.com/wyf7685/nonebot-plugin-talk-stats/actions/workflows/pypi-publish.yml)
+[![publish](https://github.com/wyf7685/nonebot-plugin-talk-stats/actions/workflows/publish.yml/badge.svg)](https://github.com/wyf7685/nonebot-plugin-talk-stats/actions/workflows/publish.yml)
 
 </div>
 
 ## 📖 介绍
 
-这里是插件的详细介绍部分
+基于 [`nonebot-plugin-chatrecorder`](https://github.com/noneplugin/nonebot-plugin-chatrecorder) 数据的群聊活跃度统计插件
 
 ## 💿 安装
 
@@ -89,36 +89,64 @@ pip install nonebot-plugin-talk-stats
 
 </details>
 
+- 可选: 启用定时任务功能
+  - 将上述 `nonebot-plugin-talk-stats` 改为 `nonebot-plugin-talk-stats[scheduler]` 执行
+  - 或手动安装插件 [`nonebot-plugin-apscheduler`](https://github.com/nonebot/plugin-apscheduler)
+
 ## ⚙️ 配置
 
 在 nonebot2 项目的`.env`文件中添加下表中的必填配置
 
-|  配置项  | 必填 | 默认值 |   说明   |
-| :------: | :--: | :----: | :------: |
-| 配置项 1 |  是  |   无   | 配置说明 |
-| 配置项 2 |  否  |   无   | 配置说明 |
+|             配置项              | 必填 |     默认值      |         说明         |
+| :-----------------------------: | :--: | :-------------: | :------------------: |
+| `talk_stats__enable_scheduler`  |  否  |     `True`      | 是否启用定时任务功能 |
+| `talk_stats__scene_color_start` |  否  | `(29, 113, 48)` |   群组柱状图渐变色   |
+|  `talk_stats__scene_color_end`  |  否  | `(52, 208, 88)` |   群组柱状图渐变色   |
+|   `talk_stats__user_color_fn`   |  否  |        -        | 个人统计瓷砖着色函数 |
+
+- `talk_stats__enable_scheduler` 需要安装 `nonebot-plugin-apscheduler`, 未安装时将自动禁用功能
+- 渐变色配置项应为 RGB 三元组, 在 `.env.*` 中应写为 `[R, G, B]`
+- 着色函数
+  - 函数签名应为 `(count: int, total: int) -> str`, 返回形如 `#0f0f0f` 的字符串
+  - 在 `.env.*` 中应写为 点分表示法对象 的字符串: `mod.submod:func` [参考](https://github.com/nonebot/nonebot2/blob/v2.4.2/nonebot/utils.py#L285)
 
 ## 🎉 使用
 
-### 指令表
+[Alconna](https://nonebot.dev/docs/next/best-practice/alconna/matcher) 命令: `talk_stats`
 
-|  指令  | 权限 | 需要@ | 范围 |   说明   |
-| :----: | :--: | :---: | :--: | :------: |
-| 指令 1 | 主人 |  否   | 私聊 | 指令说明 |
-| 指令 2 | 群员 |  是   | 群聊 | 指令说明 |
+使用示例:
+
+```sh
+# 个人水群瓷砖
+talk_stats my
+talk_stats my --days 120
+
+# 群组活跃度排行
+talk_stats scene
+talk_stats scene --days 30 --num 10
+
+# 设置定时任务 (需要安装 nonebot-plugin-apscheduler)
+talk_stats schedule add 23 59 --num 10
+talk_stats schedule clear
+
+# 获取完整命令说明
+talk_stats --help
+```
 
 ## 💡 鸣谢
 
-- (可能的鸣谢清单)
+- [`nonebot/nonebot2`](https://github.com/nonebot/nonebot2): 跨平台 Python 异步机器人框架
+- [`noneplugin/nonebot-plugin-chatrecorder`](https://github.com/noneplugin/nonebot-plugin-chatrecorder): 统计数据源
+- [`nonebot/plugin-alconna`](https://github.com/nonebot/plugin-alconna): 跨平台的消息处理接口
+- [`RF-Tar-Railt/nonebot-plugin-uninfo`](https://github.com/RF-Tar-Railt/nonebot-plugin-uninfo): 绘图信息获取
 
 ## 📝 更新日志
 
 <details>
 <summary>更新日志</summary>
 
-- 2024.09.14 v0.1.0
+- 2025.06.09 v0.1.1
 
-  - 插件模板
-  - 更新日志
+  - 插件上传
 
 </details>

@@ -27,8 +27,8 @@ except Exception:
     __version__ = None
 
 __plugin_meta__ = PluginMetadata(
-    name="Talk Stats",
-    description="群聊活跃度统计",
+    name="群聊活跃度统计",
+    description="群聊活跃度统计插件",
     usage="talk_stats -h",
     type="application",
     homepage="https://github.com/wyf7685/nonebot-plugin-talk-stats",
