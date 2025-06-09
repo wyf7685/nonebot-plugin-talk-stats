@@ -1,4 +1,3 @@
-import functools
 import json
 from typing import Any
 
@@ -23,11 +22,11 @@ class ScheduleConfig(BaseModel):
     session_data: dict[str, Any]
     target_data: dict[str, Any]
 
-    @functools.cached_property
+    @property
     def session(self) -> Session:
         return Session.load(self.session_data)
 
-    @functools.cached_property
+    @property
     def target(self) -> Target:
         return Target.load(self.target_data)
 
@@ -40,9 +39,13 @@ CONFIG_FILE = get_plugin_data_file("schedule.json")
 
 
 def load_configs() -> list[ScheduleConfig]:
-    return type_validate_json(
-        list[ScheduleConfig],
-        CONFIG_FILE.read_text(encoding="utf-8"),
+    return (
+        type_validate_json(
+            list[ScheduleConfig],
+            CONFIG_FILE.read_text(encoding="utf-8"),
+        )
+        if CONFIG_FILE.exists()
+        else []
     )
 
 

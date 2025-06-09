@@ -19,6 +19,7 @@ license = "MIT"
 scheduler = ["nonebot-plugin-apscheduler>=0.5.0"]
 
 [tool.uv]
+resolution = "lowest-direct"
 dev-dependencies = [
   "nonebot2[fastapi]>=2.4.0",
   "nonebot-adapter-onebot>=2.4.4",

@@ -23,8 +23,6 @@ def _get_count_color(count: int, total: int) -> str:
     # Apply an exponential function to the normalized value
     # We use e^(k * normalized - k), where k controls the steepness
     exp_value = math.exp(count / total * 3 - 3)
-
-    # Map the exponential value to color buckets
     if exp_value < 0.1:
         return "#9be9a8"
     if exp_value < 0.3:
