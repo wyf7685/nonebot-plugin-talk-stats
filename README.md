@@ -89,9 +89,13 @@ pip install nonebot-plugin-talk-stats
 
 </details>
 
-- 可选: 启用定时任务功能
-  - 将上述 `nonebot-plugin-talk-stats` 改为 `nonebot-plugin-talk-stats[scheduler]` 执行
-  - 或手动安装插件 [`nonebot-plugin-apscheduler`](https://github.com/nonebot/plugin-apscheduler)
+> [!note]
+> 
+> 可选: 启用定时任务功能
+> 
+> - 将上述 `nonebot-plugin-talk-stats` 改为 `nonebot-plugin-talk-stats[scheduler]` 执行
+> 
+> - 或手动安装插件 [`nonebot-plugin-apscheduler`](https://github.com/nonebot/plugin-apscheduler)
 
 ## ⚙️ 配置
 
