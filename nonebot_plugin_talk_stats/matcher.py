@@ -14,13 +14,6 @@ from .config import config
 from .query import query_scene, query_session
 from .render import render_my, render_scene
 
-
-async def _check_group(target: MsgTarget) -> bool:
-    if target.private:
-        await UniMessage.text("该命令只能在群聊中使用").send(target)
-    return not target.private
-
-
 sub_commands = [
     Subcommand(
         "my",
@@ -61,6 +54,12 @@ alc = Alconna(
         author="wyf7685",
     ),
 )
+
+
+async def _check_group(target: MsgTarget) -> bool:
+    return not target.private
+
+
 matcher = on_alconna(alc, rule=_check_group)
 matcher.shortcut(
     r"我的水群瓷砖",
