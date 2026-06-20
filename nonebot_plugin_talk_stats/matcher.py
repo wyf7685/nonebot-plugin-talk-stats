@@ -61,10 +61,7 @@ async def _check_group(target: MsgTarget) -> bool:
 
 
 matcher = on_alconna(alc, rule=_check_group)
-matcher.shortcut(
-    r"我的水群瓷砖",
-    {"command": "talk_stats my {*}"},
-)
+matcher.shortcut(r"我的水群瓷砖", command="talk_stats my {*}")
 
 
 @matcher.assign("my")

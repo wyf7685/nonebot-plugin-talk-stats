@@ -5,7 +5,15 @@ from collections.abc import Callable
 from pathlib import Path
 
 from nonebot.utils import resolve_dot_notation
-from nonebot_plugin_htmlrender import get_new_page, template_to_html
+from nonebot_plugin_htmlrender import render_template
+from nonebot_plugin_htmlrender.backend.playwright.models import (
+    PageConfig,
+    PngScreenshotOptions,
+    RenderConfig,
+    TemplateConfig,
+    TemplateRenderRequest,
+    ViewportConfig,
+)
 from nonebot_plugin_uninfo.model import User
 
 from .config import config
@@ -63,7 +71,7 @@ def _build_cells(
 async def render_my(data: dict[dt.date, int], days: int, user: User) -> bytes:
     cells, max_x, max_cnt = _build_cells(data, days)
     container_width = (max(max_x, 5) + 1) * 16
-    templates_data = {
+    template_vars = {
         "min": min,
         "cells": cells,
         "max_x": max_x,
@@ -73,18 +81,18 @@ async def render_my(data: dict[dt.date, int], days: int, user: User) -> bytes:
         "days": days,
     }
 
-    html = await template_to_html(
-        template_path=str(template_dir),
-        template_name="my.html.jinja2",
-        filters=None,
-        **templates_data,
+    request = TemplateRenderRequest(
+        template=TemplateConfig(
+            template_path=str(template_dir),
+            template_name="my.html.jinja2",
+            template_vars=template_vars,
+        ),
+        render=RenderConfig(
+            page=PageConfig(viewport=ViewportConfig(width=container_width, height=350)),
+            screenshot=PngScreenshotOptions(full_page=True),
+        ),
     )
-
-    async with get_new_page(viewport={"width": container_width, "height": 350}) as page:
-        await page.set_content(html, wait_until="networkidle")
-        if calendar_element := await page.query_selector("#calendar-container"):
-            return await calendar_element.screenshot(type="png")
-        return await page.screenshot(full_page=True, type="png")
+    return await render_template(request)
 
 
 def _build_chart(data: list[tuple[User, int]]) -> list[dict[str, object]]:
@@ -116,22 +124,22 @@ def _build_chart(data: list[tuple[User, int]]) -> list[dict[str, object]]:
 async def render_scene(data: list[tuple[User, int]], days: int = 7) -> bytes:
     chart_data = _build_chart(data)
     view_height = 150 + len(chart_data) * 55  # 基础高度 + 每行高度
-    templates_data = {
+    template_vars = {
         "chart_data": chart_data,
         "total_messages": sum(count for _, count in data),
         "days": days,
         "container_height": view_height - 50,  # 容器高度略小于视图
     }
 
-    html = await template_to_html(
-        template_path=str(template_dir),
-        template_name="scene.html.jinja2",
-        filters=None,
-        **templates_data,
+    request = TemplateRenderRequest(
+        template=TemplateConfig(
+            template_path=str(template_dir),
+            template_name="scene.html.jinja2",
+            template_vars=template_vars,
+        ),
+        render=RenderConfig(
+            page=PageConfig(viewport=ViewportConfig(width=600, height=view_height)),
+            screenshot=PngScreenshotOptions(full_page=True),
+        ),
     )
-
-    async with get_new_page(viewport={"width": 600, "height": view_height}) as page:
-        await page.set_content(html, wait_until="networkidle")
-        if chart_element := await page.query_selector("#chart-container"):
-            return await chart_element.screenshot(type="png")
-        return await page.screenshot(full_page=True, type="png")
+    return await render_template(request)
