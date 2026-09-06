@@ -15,7 +15,7 @@ if config.enable_scheduler:
         require("nonebot_plugin_apscheduler")
     except ImportError:
         config.enable_scheduler = False
-        logger.warning("nonebot_plugin_apscheduler 插件未安装, 已禁用定时任务功能")
+        logger.warning("nonebot-plugin-apscheduler 插件未安装, 已禁用定时任务功能")
     else:
         from . import scheduler as scheduler
 

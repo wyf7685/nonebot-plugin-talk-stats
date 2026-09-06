@@ -6,14 +6,6 @@ from pathlib import Path
 
 from nonebot.utils import resolve_dot_notation
 from nonebot_plugin_htmlrender import render_template
-from nonebot_plugin_htmlrender.backend.playwright.models import (
-    PageConfig,
-    PngScreenshotOptions,
-    RenderConfig,
-    TemplateConfig,
-    TemplateRenderRequest,
-    ViewportConfig,
-)
 from nonebot_plugin_uninfo.model import User
 
 from .config import config
@@ -81,18 +73,14 @@ async def render_my(data: dict[dt.date, int], days: int, user: User) -> bytes:
         "days": days,
     }
 
-    request = TemplateRenderRequest(
-        template=TemplateConfig(
-            template_path=str(template_dir),
-            template_name="my.html.jinja2",
-            template_vars=template_vars,
-        ),
-        render=RenderConfig(
-            page=PageConfig(viewport=ViewportConfig(width=container_width, height=350)),
-            screenshot=PngScreenshotOptions(full_page=True),
-        ),
+    rendered = await render_template(
+        template_path=template_dir,
+        template_name="my.html.jinja2",
+        variables=template_vars,
+        width=container_width,
+        image_format="png",
     )
-    return await render_template(request)
+    return rendered.data
 
 
 def _build_chart(data: list[tuple[User, int]]) -> list[dict[str, object]]:
@@ -131,15 +119,11 @@ async def render_scene(data: list[tuple[User, int]], days: int = 7) -> bytes:
         "container_height": view_height - 50,  # 容器高度略小于视图
     }
 
-    request = TemplateRenderRequest(
-        template=TemplateConfig(
-            template_path=str(template_dir),
-            template_name="scene.html.jinja2",
-            template_vars=template_vars,
-        ),
-        render=RenderConfig(
-            page=PageConfig(viewport=ViewportConfig(width=600, height=view_height)),
-            screenshot=PngScreenshotOptions(full_page=True),
-        ),
+    rendered = await render_template(
+        template_path=template_dir,
+        template_name="scene.html.jinja2",
+        variables=template_vars,
+        width=600,
+        image_format="png",
     )
-    return await render_template(request)
+    return rendered.data
